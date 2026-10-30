@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive BPMN Blueprint Showcase</title>
-  <!-- Load official bpmn-js responsive structural styling -->
+  
+  <!-- Core Layout Stylesheets from official unpkg mirrors -->
   <link rel="stylesheet" href="https://unpkg.com" />
   <link rel="stylesheet" href="https://unpkg.com" />
   
-  <!-- Use the Navigated Viewer distribution to enable interactive drag, zoom, and pan -->
+  <!-- Unified stable production engine distribution script -->
   <script src="https://unpkg.com"></script>
   
   <style>
@@ -17,6 +19,7 @@
       margin: 0;
       padding: 0;
       background-color: #FAFAFA;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -25,32 +28,31 @@
   <div id="canvas"></div>
 
   <script>
-    // Safe relative file reference targeting your neighboring BPMN file
-    const bpmnFileUrl = 'upwork_proposal_engine_1.bpmn';
+    // Exact match of your filename string inside the GitHub folder
+    const bpmnFileUrl = './upwork_proposal_engine_1.bpmn';
 
-    // Target the specific canvas container node element securely
-    const containerElement = document.getElementById('canvas');
-    
-    // Initialize the advanced Navigated Viewer engine
-    const viewer = new BpmnJS({ container: containerElement });
+    // Instantiating the global rendering system engine
+    const viewer = new BpmnJS({ 
+      container: document.getElementById('canvas') 
+    });
 
-    // Fetch and render process pipeline logic
+    // Request logic block
     fetch(bpmnFileUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response failure: Mapping file not found');
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Could not find the target file matching path name layout string');
         }
-        return response.text();
+        return res.text();
       })
-      .then(xmlData => {
-        return viewer.importXML(xmlData);
+      .then(xmlString => {
+        return viewer.importXML(xmlString);
       })
       .then(() => {
-        // Force the canvas to cleanly fit within your Notion block frame responsive layout
+        // Adjust the camera grid layout coordinates to fit cleanly into your viewport window box
         viewer.get('canvas').zoom('fit-viewport');
       })
       .catch(err => {
-        console.error('BPMN Rendering Pipeline Crash Log:', err);
+        console.error('BPMN critical execution pipeline error log:', err);
       });
   </script>
 </body>
