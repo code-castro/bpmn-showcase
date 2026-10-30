@@ -3,31 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Interactive BPMN Blueprint Showcase</title>
-  <!-- Load the Camunda bpmn-js viewer style & script -->
+  <!-- Load official bpmn-js responsive structural styling -->
   <link rel="stylesheet" href="https://unpkg.com" />
   <link rel="stylesheet" href="https://unpkg.com" />
+  
+  <!-- Use the Navigated Viewer distribution to enable interactive drag, zoom, and pan -->
   <script src="https://unpkg.com"></script>
+  
   <style>
-    html, body, #canvas { height: 100%; width: 100%; margin: 0; padding: 0; background-color: #FAFAFA; }
+    html, body, #canvas {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #FAFAFA;
+    }
   </style>
 </head>
 <body>
+
   <div id="canvas"></div>
+
   <script>
-    // URL to your raw BPMN file hosted on GitHub
-    const bpmnFileUrl = 'https://githubusercontent.com';
+    // Safe relative file reference targeting your neighboring BPMN file
+    const bpmnFileUrl = 'upwork_proposal_engine_1.bpmn';
 
+    // Target the specific canvas container node element securely
+    const containerElement = document.getElementById('canvas');
+    
+    // Initialize the advanced Navigated Viewer engine
+    const viewer = new BpmnJS({ container: containerElement });
 
-
-    const viewer = new BpmnJS({ container: '#canvas' });
-
+    // Fetch and render process pipeline logic
     fetch(bpmnFileUrl)
-      .then(response => response.text())
-      .then(xml => {
-        viewer.importXML(xml).then(() => {
-          // Zoom to fit the canvas automatically on load
-          viewer.get('canvas').zoom('fit-viewport');
-        }).catch(err => console.error('Error rendering BPMN', err));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response failure: Mapping file not found');
+        }
+        return response.text();
+      })
+      .then(xmlData => {
+        return viewer.importXML(xmlData);
+      })
+      .then(() => {
+        // Force the canvas to cleanly fit within your Notion block frame responsive layout
+        viewer.get('canvas').zoom('fit-viewport');
+      })
+      .catch(err => {
+        console.error('BPMN Rendering Pipeline Crash Log:', err);
       });
   </script>
 </body>
