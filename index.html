@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive BPMN Blueprint Showcase</title>
+  <!-- Load the Camunda bpmn-js viewer style & script -->
+  <link rel="stylesheet" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com" />
+  <script src="https://unpkg.com"></script>
+  <style>
+    html, body, #canvas { height: 100%; width: 100%; margin: 0; padding: 0; background-color: #FAFAFA; }
+  </style>
+</head>
+<body>
+  <div id="canvas"></div>
+  <script>
+    // URL to your raw BPMN file hosted on GitHub
+    const bpmnFileUrl = 'YOUR_RAW_BPMN_FILE_URL_HERE';
+
+    const viewer = new BpmnJS({ container: '#canvas' });
+
+    fetch(bpmnFileUrl)
+      .then(response => response.text())
+      .then(xml => {
+        viewer.importXML(xml).then(() => {
+          // Zoom to fit the canvas automatically on load
+          viewer.get('canvas').zoom('fit-viewport');
+        }).catch(err => console.error('Error rendering BPMN', err));
+      });
+  </script>
+</body>
+</html>
